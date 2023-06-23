@@ -146,21 +146,13 @@ class ProductController extends Controller
     }
 
     
-    public function  highReviewed()
+ public function  highReviewed()
     {
         try {
-           $products=Product::withCount(['reviews'])->get();
-           $maxi=0;
-           $high_rated='';
-           foreach( $products as $product)
-           {
-                if($product->reviews_count>$maxi) 
-                {
-                    $maxi=$product->reviews_count;
-                    $high_rated=$product->product_name;
-                }
-           }
-           $data= $high_rated;
+           $products=Product::withCount(['reviews'])->orderBy('reviews_count')
+           ->get();
+          
+           $data= $products;
             $msg='Got data Successfully';
             return $this->successResponse($data,$msg);
         }
