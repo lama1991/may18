@@ -160,4 +160,20 @@ class ProductController extends Controller
     { return $this->errorResponse($ex->getMessage(),500); }
     }
 
+    
+    public function  highStarsAvg()
+    {
+        try {
+          $products=Product::withAvg('reviews','stars')->orderBy('reviews_avg_stars')
+           ->get();
+          
+           $data= $products;
+            $msg='Got data Successfully';
+            return $this->successResponse($data,$msg);
+        }
+    catch (\Exception $ex)
+    { return $this->errorResponse($ex->getMessage(),500); 
+    }
+    }
+
 }
